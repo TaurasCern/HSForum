@@ -1,3 +1,5 @@
+using HSForumAPI.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -10,7 +12,10 @@ namespace HSForumAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddDbContext<HSForumContext>(option =>
+            {
+                option.UseSqlite(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -74,6 +79,7 @@ namespace HSForumAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors("_allowAny");
 
             app.UseHttpsRedirection();
 
