@@ -17,10 +17,13 @@ namespace HSForumAPI.Infrastructure.Database
             
         }
         public DbSet<LocalUser> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostReply> PostReplies { get; set; }
         public DbSet<PostType> PostTypes { get; set; }
         public DbSet<Rating> Ratings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //LocalUser

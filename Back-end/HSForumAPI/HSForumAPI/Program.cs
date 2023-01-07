@@ -19,6 +19,10 @@ namespace HSForumAPI
                 option.UseSqlite(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
             });
 
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+
+
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddControllers();
