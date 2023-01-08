@@ -1,3 +1,5 @@
+using HSForumAPI.Domain.Services;
+using HSForumAPI.Domain.Services.IServices;
 using HSForumAPI.Infrastructure.Database;
 using HSForumAPI.Infrastructure.Repositories;
 using HSForumAPI.Infrastructure.Repositories.IRepositories;
@@ -21,6 +23,9 @@ namespace HSForumAPI
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+
+            builder.Services.AddScoped<IPasswordService, PasswordService>();
+            builder.Services.AddScoped<IJwtService, JwtService>();
 
 
             builder.Services.AddHttpContextAccessor();
