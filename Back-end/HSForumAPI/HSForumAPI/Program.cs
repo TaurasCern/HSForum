@@ -138,10 +138,6 @@ namespace HSForumAPI
             app.MapControllers();
 
             app.Run();
-
-            using var scope = app.Services.CreateScope();
-            var dbContext = scope.ServiceProvider.GetService<DbContext>();
-            dbContext.Database.Migrate();
         }
     }
 }
