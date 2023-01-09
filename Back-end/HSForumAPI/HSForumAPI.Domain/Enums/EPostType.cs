@@ -8,6 +8,6 @@ namespace HSForumAPI.Domain.Enums
 {
     public enum EPostType
     {
-        News,
+        News = 1,
     }
 }
