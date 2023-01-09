@@ -19,8 +19,8 @@ namespace HSForumAPI.Infrastructure.Repositories
         private readonly IPasswordService _passwordService;
         private readonly IJwtService _jwtService;
         private readonly IUserRoleRepository _userRoleRepository;
-        private readonly int _defaultRoleId = 2;
-        private readonly ERole _defaultRole = ERole.user;
+        private readonly int _defaultRoleId = 1;
+        private readonly ERole _defaultRole = ERole.User;
         public UserRepository(HSForumContext db, IPasswordService passwordService, IJwtService jwtService, IUserRoleRepository userRoleRepository)
         {
             _db = db;

@@ -8,7 +8,8 @@ namespace HSForumAPI.Domain.Enums
 {
     public enum ERole
     {
-        admin,
-        user,
+        User,
+        Admin,
+        Moderator,
     }
 }
