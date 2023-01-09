@@ -77,6 +77,7 @@ namespace HSForumAPI.Infrastructure.Repositories
                 Email = registrationRequest.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                CreatedAt = DateTime.Now
             };
 
             _db.Users.Add(user);
