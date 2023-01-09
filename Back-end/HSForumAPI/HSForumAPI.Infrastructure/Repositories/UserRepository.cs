@@ -19,8 +19,8 @@ namespace HSForumAPI.Infrastructure.Repositories
         private readonly IPasswordService _passwordService;
         private readonly IJwtService _jwtService;
         private readonly IUserRoleRepository _userRoleRepository;
-        private readonly int _defaultRoleId = 2;
-        private readonly ERole _defaultRole = ERole.user;
+        private readonly int _defaultRoleId = 1;
+        private readonly ERole _defaultRole = ERole.User;
         public UserRepository(HSForumContext db, IPasswordService passwordService, IJwtService jwtService, IUserRoleRepository userRoleRepository)
         {
             _db = db;
@@ -48,7 +48,12 @@ namespace HSForumAPI.Infrastructure.Repositories
                 .ThenInclude(ur => ur.Role)
                 .FirstOrDefaultAsync(u => u.Username.ToLower() == loginRequest.Username.ToLower());
 
-            if (user == null && !_passwordService.VerifyPasswordHash(loginRequest.Password, user.PasswordHash, user.PasswordSalt))
+            if (user == null)
+            {
+                return null;
+            }
+
+            if(!_passwordService.VerifyPasswordHash(loginRequest.Password, user.PasswordHash, user.PasswordSalt))
             {
                 return null;
             }

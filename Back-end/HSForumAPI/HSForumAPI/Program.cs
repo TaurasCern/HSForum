@@ -24,6 +24,8 @@ namespace HSForumAPI
                 option.UseSqlite(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
             });
 
+
+
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -131,6 +133,10 @@ namespace HSForumAPI
             app.MapControllers();
 
             app.Run();
+
+            using var scope = app.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetService<DbContext>();
+            if(dbContext != null) dbContext.Database.Migrate();
         }
     }
 }
