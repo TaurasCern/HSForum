@@ -94,6 +94,8 @@ namespace HSForumAPI.Infrastructure.Database
                 .HasOne(ur => ur.Role)
                 .WithMany(p => p.UserRoles)
                 .HasForeignKey(pr => pr.RoleId);
+            modelBuilder.Entity<UserRole>()
+                .HasData(UserRoleDataSeed.Data);
         }
     }
 }
