@@ -1,4 +1,4 @@
-﻿using HSForumAPI.Domain.DTOs;
+﻿using HSForumAPI.Domain.DTOs.UserDTOs;
 using HSForumAPI.Infrastructure.Repositories.IRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

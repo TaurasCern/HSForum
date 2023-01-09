@@ -1,4 +1,4 @@
-﻿namespace HSForumAPI.Infrastructure.Repositories.IRepositories
+﻿namespace HSForumAPI.Domain.DTOs.UserDTOs
 {
     public class LoginResponse
     {

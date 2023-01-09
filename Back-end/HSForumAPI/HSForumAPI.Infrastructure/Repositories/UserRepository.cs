@@ -1,4 +1,4 @@
-﻿using HSForumAPI.Domain.DTOs;
+﻿using HSForumAPI.Domain.DTOs.UserDTOs;
 using HSForumAPI.Domain.Enums;
 using HSForumAPI.Domain.Models;
 using HSForumAPI.Domain.Services.IServices;
