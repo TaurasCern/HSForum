@@ -74,6 +74,7 @@ namespace HSForumAPI.Infrastructure.Repositories
             LocalUser user = new()
             {
                 Username = registrationRequest.Username,
+                Email = registrationRequest.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
             };
