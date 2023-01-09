@@ -30,7 +30,7 @@ namespace HSForumAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<LoginResponse>> Register([FromBody] RegistrationRequest req)
         {
-            if (!await _userRepo.IsRegisteredAsync(req.Username, req.Email)) 
+            if (await _userRepo.IsRegisteredAsync(req.Username, req.Email)) 
                 return BadRequest(new {message = "Username or email already exists" });
 
             var token = await _userRepo.RegisterAsync(req);
