@@ -13,13 +13,23 @@ namespace HSForumAPI.Infrastructure.Repositories
         private readonly HSForumContext _db;
         public IUserRepository Users { get; private set; }
         public IUserRoleRepository UserRoles { get; private set; }
+        public IPostRepository Posts { get; private set; }
+        public IPostReplyRepository PostReplies { get; private set; }
+        public IRatingRepository Ratings { get; private set; }
+
         public UnitOfWork(HSForumContext db, 
             IUserRepository userRepository,
-            IUserRoleRepository userRoleRepository)
+            IUserRoleRepository userRoleRepository,
+            IPostRepository posts,
+            IPostReplyRepository postReplies,
+            IRatingRepository ratings)
         {
             _db = db;
             Users = userRepository;
             UserRoles = userRoleRepository;
+            Posts = posts;
+            PostReplies = postReplies;
+            Ratings = ratings;
         }
         public async Task SaveAsync()
         {
