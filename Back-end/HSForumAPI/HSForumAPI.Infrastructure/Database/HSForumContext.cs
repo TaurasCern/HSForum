@@ -1,5 +1,6 @@
 ﻿using HSForumAPI.Domain.Enums;
 using HSForumAPI.Domain.Models;
+using HSForumAPI.Infrastructure.DataSeeds;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,8 @@ namespace HSForumAPI.Infrastructure.Database
             //LocalUser
             modelBuilder.Entity<LocalUser>()
                 .HasKey(u => u.UserId);
+            modelBuilder.Entity<LocalUser>()
+                .HasData(LocalUserDataSeed.GetData());
             //Post
             modelBuilder.Entity<Post>()
                 .HasKey(p => p.PostId);
@@ -78,6 +81,8 @@ namespace HSForumAPI.Infrastructure.Database
                 .HasConversion(
                     v => v.ToString(),
                     v => (ERole)Enum.Parse(typeof(ERole), v));
+            modelBuilder.Entity<Role>()
+                .HasData(RoleDataSeed.Data);
             //UserRole
             modelBuilder.Entity<UserRole>()
                 .HasKey(r => r.UserRoleId);
