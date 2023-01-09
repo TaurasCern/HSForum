@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HSForumAPI.Domain.DTOs
+namespace HSForumAPI.Domain.DTOs.UserDTOs
 {
     public class LoginRequest
     {
