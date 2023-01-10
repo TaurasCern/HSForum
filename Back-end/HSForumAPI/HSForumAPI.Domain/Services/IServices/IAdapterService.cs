@@ -6,5 +6,6 @@ namespace HSForumAPI.Domain.Services.IServices
     public interface IAdapterService
     {
         Post Bind(PostRequest request, int userId);
+        PostResponse Bind(Post post);
     }
 }
