@@ -31,7 +31,11 @@ namespace HSForumAPI.Domain.Services
             Title = post.Title,
             Content = post.Content,
             CreatedAt = post.CreatedAt,
-            UserId = post.UserId
+            UserId = post.UserId,
+            Replies = post.Replies == null ? null 
+                : post.Replies
+                    .Select(r => Bind(r))
+                        .ToArray()       
         };
 
         public PostReplyResponse Bind(PostReply reply) => new()
