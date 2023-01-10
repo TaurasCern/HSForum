@@ -8,7 +8,7 @@ namespace HSForumAPI.Domain.Services.IServices
     public interface IAdapterService
     {
         Post Bind(PostRequest request, int userId);
-        PostResponse Bind(Post post);
+        PostResponse Bind(Post post, int rating);
         PostReplyResponse Bind(PostReply reply);
         PostReply Bind(PostReplyRequest request, int userId);
         Rating Bind(RatingRequest request, int userId);

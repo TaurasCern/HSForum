@@ -26,7 +26,7 @@ namespace HSForumAPI.Domain.Services
             UserId = userId
         };
 
-        public PostResponse Bind(Post post) => new()
+        public PostResponse Bind(Post post, int rating) => new()
         {
             PostId = post.PostId,
             Title = post.Title,
@@ -36,7 +36,8 @@ namespace HSForumAPI.Domain.Services
             Replies = post.Replies == null ? null 
                 : post.Replies
                     .Select(r => Bind(r))
-                        .ToArray()       
+                        .ToArray(),
+            Rating = rating
         };
 
         public PostReplyResponse Bind(PostReply reply) => new()
