@@ -10,6 +10,9 @@ namespace HSForumAPI.Domain.DTOs.PostDTOs
 {
     public class PostGetTypeRequest
     {
+        /// <summary>
+        /// Enum type of the post
+        /// </summary>
         [Required]
         [EnumDataType(typeof(EPostType), ErrorMessage = "Cannot parse given string, no such Enum")]
         public string PostType { get; set; }
