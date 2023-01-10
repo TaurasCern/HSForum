@@ -30,6 +30,10 @@ namespace HSForumAPI.Domain.DTOs.PostDTOs
         /// </summary>
         public int UserId { get; set; }
         /// <summary>
+        /// Rating of the post
+        /// </summary>
+        public int Rating { get; set; }
+        /// <summary>
         /// Comments of the post
         /// </summary>
         public PostReplyResponse[]? Replies { get; set; }
