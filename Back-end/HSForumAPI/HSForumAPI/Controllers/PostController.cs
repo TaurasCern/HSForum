@@ -47,5 +47,22 @@ namespace HSForumAPI.Controllers
 
             return Ok(_adapter.Bind(await created));
         }
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<PostResponse>> GetByType(PostGetTypeRequest request)
+        {
+            var posts = await _db.Posts.GetAllAsync(p => p.PostType.Type.ToString() == request.PostType);
+
+            if(posts == null)
+            {
+                return NotFound(request);
+            }
+
+            var response = posts.Select(p => _adapter.Bind(p));
+
+            return Ok(response);
+        }
     }
 }
