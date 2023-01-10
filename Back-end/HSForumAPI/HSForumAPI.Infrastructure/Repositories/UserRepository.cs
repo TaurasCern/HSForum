@@ -58,7 +58,7 @@ namespace HSForumAPI.Infrastructure.Repositories
                 return null;
             }
 
-            return await _jwtService.GetJwtToken(user.UserId,
+            return _jwtService.GetJwtToken(user.UserId,
                 user.UserRoles
                     .Select(ur => ur.Role.Name.ToString()).ToArray());
         }
@@ -89,7 +89,7 @@ namespace HSForumAPI.Infrastructure.Repositories
                 RoleId = _defaultRoleId
             });
 
-            return await _jwtService.GetJwtToken(user.UserId, new string[1] { _defaultRole.ToString() }); ;
+            return _jwtService.GetJwtToken(user.UserId, new string[1] { _defaultRole.ToString() }); ;
         }  
     }
 }

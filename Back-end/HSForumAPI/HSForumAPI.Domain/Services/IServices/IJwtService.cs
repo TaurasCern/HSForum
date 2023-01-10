@@ -8,6 +8,6 @@ namespace HSForumAPI.Domain.Services.IServices
 {
     public interface IJwtService
     {
-        Task<string> GetJwtToken(int userId, string[] roles);
+        string GetJwtToken(int userId, string[] roles);
     }
 }
