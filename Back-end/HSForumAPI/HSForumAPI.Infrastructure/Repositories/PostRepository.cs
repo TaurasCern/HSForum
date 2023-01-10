@@ -23,6 +23,9 @@ namespace HSForumAPI.Infrastructure.Repositories
         {
             IQueryable<Post> query = _db.Posts
                 .Include(p => p.Replies);
+            query = query
+                .Include(p => p.Ratings);
+
 
             if (!tracked)
             {

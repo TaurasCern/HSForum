@@ -17,5 +17,12 @@ namespace HSForumAPI.Infrastructure.Repositories
         {
             _db = db;
         }
+
+        public async Task<Rating> UpdateAsync(Rating rating)
+        {
+            _db.Ratings.Update(rating);
+            await _db.SaveChangesAsync();
+            return rating;
+        }
     }
 }

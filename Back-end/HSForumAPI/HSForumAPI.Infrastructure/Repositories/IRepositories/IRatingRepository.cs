@@ -9,6 +9,6 @@ namespace HSForumAPI.Infrastructure.Repositories.IRepositories
 {
     public interface IRatingRepository : IRepository<Rating>
     {
-
+        Task<Rating> UpdateAsync(Rating rating);
     }
 }
