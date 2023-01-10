@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HSForumAPI.Domain.DTOs.PostReplyDTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,5 +29,9 @@ namespace HSForumAPI.Domain.DTOs.PostDTOs
         /// UserId of the user who made the post
         /// </summary>
         public int UserId { get; set; }
+        /// <summary>
+        /// Comments of the post
+        /// </summary>
+        public PostReplyResponse[]? Replies { get; set; }
     }
 }
