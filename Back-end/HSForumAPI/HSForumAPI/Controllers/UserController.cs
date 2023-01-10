@@ -9,10 +9,10 @@ namespace HSForumAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepo;
-        public UserController(IUserRepository userRepo)
+        private readonly IUnitOfWork _db;
+        public UserController(IUnitOfWork db)
         {
-            _userRepo = userRepo;
+            _db = db;
         }
         [HttpPost("/api/Login")]
         [ProducesResponseType(200)]
@@ -20,7 +20,7 @@ namespace HSForumAPI.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest req)
         {
-            var token = await _userRepo.LoginAsync(req);
+            var token = await _db.Users.LoginAsync(req);
 
             if(token == null) return BadRequest();
 
@@ -32,10 +32,10 @@ namespace HSForumAPI.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<LoginResponse>> Register([FromBody] RegistrationRequest req)
         {
-            if (await _userRepo.IsRegisteredAsync(req.Username, req.Email)) 
+            if (await _db.Users.IsRegisteredAsync(req.Username, req.Email)) 
                 return BadRequest(new {message = "Username or email already exists" });
 
-            var token = await _userRepo.RegisterAsync(req);
+            var token = await _db.Users.RegisterAsync(req);
 
             return Ok(new { token = token });
         }
