@@ -33,7 +33,13 @@ namespace HSForumAPI.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<PostReplyResponse>> Post(PostReplyRequest request)
         {
-            var postReply = _adapter.Bind(request);
+            if (!int.TryParse(_httpContextAccessor.HttpContext.User.Identity.Name,
+                    out int userId))
+            {
+                return BadRequest();
+            }
+
+            var postReply = _adapter.Bind(request, userId);
 
             var created = _db.PostReplies.CreateAsync(postReply);
 
