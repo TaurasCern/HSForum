@@ -14,14 +14,17 @@ namespace HSForumAPI.Controllers
         private readonly IUnitOfWork _db;
         private readonly IAdapterService _adapter;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IRatingService _ratingService;
         public RatingController(
             IUnitOfWork db,
             IAdapterService adapter,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IRatingService ratingService)
         {
             _db = db;
             _adapter = adapter;
             _httpContextAccessor = httpContextAccessor;
+            _ratingService = ratingService;
         }
         [HttpPost]
         [Authorize(Roles = "Admin,Moderator,User")]
@@ -36,6 +39,18 @@ namespace HSForumAPI.Controllers
                     out int userId))
             {
                 return BadRequest();
+            }
+            var post = await _db.Posts.GetWithRepliesAsync(p => p.PostId == request.PostId);
+            
+            if(_ratingService.CheckIfRated(post, userId))
+            {
+                var existingRating = await _db.Ratings.GetAsync(r => r.UserId == userId && r.PostId == post.PostId);
+
+                existingRating.IsPositive = request.IsPositive;
+
+                var updated =  await _db.Ratings.UpdateAsync(existingRating);
+
+                return Ok(_adapter.Bind(updated));
             }
 
             var rating = _adapter.Bind(request, userId);

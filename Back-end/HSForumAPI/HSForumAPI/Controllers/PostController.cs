@@ -15,14 +15,17 @@ namespace HSForumAPI.Controllers
         private readonly IUnitOfWork _db;
         private readonly IAdapterService _adapter;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IRatingService _ratingService;
         public PostController(
             IUnitOfWork db,
             IAdapterService adapter,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IRatingService ratingService)
         {
             _db = db;
             _adapter = adapter;
             _httpContextAccessor = httpContextAccessor;
+            _ratingService = ratingService;
         }
 
         [HttpPost]
@@ -45,7 +48,7 @@ namespace HSForumAPI.Controllers
 
             var created = _db.Posts.CreateAsync(post);
 
-            return Ok(_adapter.Bind(await created));
+            return Ok(_adapter.Bind(await created, 0));
         }
         [HttpGet("{type}")]
         [ProducesResponseType(200)]
@@ -65,8 +68,8 @@ namespace HSForumAPI.Controllers
                 return NotFound();
             }
 
-            var response = posts.Select(p => _adapter.Bind(p));
-
+            var response = posts.Select(p => _adapter.Bind(p, _ratingService.CalculateRating(p)));
+         
             return Ok(response);
         }
         [HttpGet("{id:int}")]
@@ -82,7 +85,7 @@ namespace HSForumAPI.Controllers
                 return NotFound(new { id });
             }
 
-            var response = _adapter.Bind(post);
+            var response = _adapter.Bind(post, _ratingService.CalculateRating(post));
 
             return Ok(response);
         }
