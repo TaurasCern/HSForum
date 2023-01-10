@@ -17,6 +17,7 @@ namespace HSForumAPI.Controllers
         [HttpPost("/api/Login")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest req)
         {
             var token = await _userRepo.LoginAsync(req);
@@ -27,7 +28,8 @@ namespace HSForumAPI.Controllers
         }
         [HttpPost("/api/Register")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         public async Task<ActionResult<LoginResponse>> Register([FromBody] RegistrationRequest req)
         {
             if (await _userRepo.IsRegisteredAsync(req.Username, req.Email)) 

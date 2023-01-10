@@ -62,6 +62,8 @@ namespace HSForumAPI.Infrastructure.Database
                 .HasConversion(
                     v => v.ToString(),
                     v => (EPostType)Enum.Parse(typeof(EPostType), v));
+            modelBuilder.Entity<PostType>()
+                .HasData(PostTypeDataSeed.Data);
             //Rating
             modelBuilder.Entity<Rating>()
                 .HasKey(r => r.RatingId);

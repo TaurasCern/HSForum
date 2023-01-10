@@ -18,7 +18,7 @@ namespace HSForumAPI.Infrastructure.DataSeeds
         }
         public static LocalUser GetData()
         {
-            CreatePasswordHash("admin", out byte[] passwordHash, out byte[] passwordSalt);
+            CreatePasswordHash("admin123", out byte[] passwordHash, out byte[] passwordSalt);
             return new()
             {
                 UserId = 1,

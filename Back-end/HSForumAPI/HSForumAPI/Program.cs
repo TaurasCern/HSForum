@@ -26,17 +26,14 @@ namespace HSForumAPI
 
 
             // Repositories
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-            builder.Services.AddScoped<IPostRepository, PostRepository>();
-            builder.Services.AddScoped<IPostReplyRepository, PostReplyRepository>();
-            builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+            builder.Services.AddRepositories();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Services
             builder.Services.AddScoped<IPasswordService, PasswordService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
+            builder.Services.AddScoped<IAdapterService, AdapterService>();
 
             builder.Services.AddHttpContextAccessor();
 
