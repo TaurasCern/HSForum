@@ -46,9 +46,12 @@ namespace HSForumAPI.Domain.Services
             UserId = reply.UserId
         };
 
-        public PostReply Bind(PostReplyRequest request)
+        public PostReply Bind(PostReplyRequest request, int userId) => new()
         {
-            throw new NotImplementedException();
-        }
+            Content = request.Content,
+            CreatedAt = DateTime.Now,
+            PostId = request.PostId,
+            UserId = userId
+        };
     }
 }
