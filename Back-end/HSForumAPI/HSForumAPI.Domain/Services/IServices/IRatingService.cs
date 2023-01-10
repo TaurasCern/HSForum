@@ -9,6 +9,7 @@ namespace HSForumAPI.Domain.Services.IServices
 {
     public interface IRatingService
     {
-        Task<int> CalculateRating(Post post);
+        int CalculateRating(Post post);
+        bool CheckIfRated(Post post, int userId);
     }
 }
