@@ -16,8 +16,8 @@ namespace HSForumAPI.Controllers
         private readonly IAdapterService _adapter;
         private readonly IHttpContextAccessor _httpContextAccessor;
         public PostController(
-            IUnitOfWork db, 
-            IAdapterService adapter, 
+            IUnitOfWork db,
+            IAdapterService adapter,
             IHttpContextAccessor httpContextAccessor)
         {
             _db = db;
@@ -34,7 +34,7 @@ namespace HSForumAPI.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<PostResponse>> Post(PostRequest request)
         {
-            if (!int.TryParse(_httpContextAccessor.HttpContext.User.Identity.Name, 
+            if (!int.TryParse(_httpContextAccessor.HttpContext.User.Identity.Name,
                 out int userId))
             {
                 return BadRequest();
@@ -55,12 +55,29 @@ namespace HSForumAPI.Controllers
         {
             var posts = await _db.Posts.GetAllAsync(p => p.PostType.Type.ToString() == request.PostType);
 
-            if(posts == null)
+            if (posts == null)
             {
                 return NotFound(request);
             }
 
             var response = posts.Select(p => _adapter.Bind(p));
+
+            return Ok(response);
+        }
+        [HttpGet("id:int")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult<PostResponse>> GetById(int id)
+        {
+            var post = await _db.Posts.GetAsync(p => p.PostId == id);
+
+            if (post == null)
+            {
+                return NotFound(new { id });
+            }
+
+            var response = _adapter.Bind(post);
 
             return Ok(response);
         }
