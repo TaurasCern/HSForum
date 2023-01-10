@@ -20,7 +20,7 @@ namespace HSForumAPI.Domain.Services
         /// <param name="userId"></param>
         /// <param name="roles"></param>
         /// <returns>Token</returns>
-        public async Task<string> GetJwtToken(int userId, string[] roles)
+        public string GetJwtToken(int userId, string[] roles)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secretKey);
