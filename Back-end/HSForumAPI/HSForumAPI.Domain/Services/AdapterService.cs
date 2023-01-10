@@ -1,4 +1,5 @@
 ﻿using HSForumAPI.Domain.DTOs.PostDTOs;
+using HSForumAPI.Domain.DTOs.PostReplyDTOs;
 using HSForumAPI.Domain.DTOs.UserDTOs;
 using HSForumAPI.Domain.Enums;
 using HSForumAPI.Domain.Models;
@@ -22,6 +23,23 @@ namespace HSForumAPI.Domain.Services
             PostTypeId = (int)(EPostType)Enum.Parse(typeof(EPostType), request.PostType),
             IsActive = true,
             UserId = userId
+        };
+
+        public PostResponse Bind(Post post) => new()
+        {
+            PostId = post.PostId,
+            Title = post.Title,
+            Content = post.Content,
+            CreatedAt = post.CreatedAt,
+            UserId = post.UserId
+        };
+
+        public PostReplyResponse Bind(PostReply reply) => new()
+        {
+            ReplyId = reply.ReplyId,
+            Content = reply.Content,
+            CreatedAt = reply.CreatedAt,
+            UserId = reply.UserId
         };
     }
 }
