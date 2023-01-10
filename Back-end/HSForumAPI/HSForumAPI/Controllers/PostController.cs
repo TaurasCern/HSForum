@@ -1,4 +1,5 @@
 ﻿using HSForumAPI.Domain.DTOs.PostDTOs;
+using HSForumAPI.Domain.Enums;
 using HSForumAPI.Domain.Services.IServices;
 using HSForumAPI.Infrastructure.Repositories.IRepositories;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,6 @@ namespace HSForumAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly IUnitOfWork _db;
@@ -47,28 +47,33 @@ namespace HSForumAPI.Controllers
 
             return Ok(_adapter.Bind(await created));
         }
-        [HttpGet]
+        [HttpGet("{type}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<PostResponse>> GetByType(PostGetTypeRequest request)
+        public async Task<ActionResult<PostResponse>> GetByType([FromRoute] string type)
         {
-            var posts = await _db.Posts.GetAllAsync(p => p.PostType.Type.ToString() == request.PostType);
+            var isParsed = Enum.TryParse(typeof(EPostType), type, out object? postType);
+            if (!isParsed)
+            {
+                return BadRequest();
+            }
+            var posts = await _db.Posts.GetAllAsync(p => p.PostType.Type == (EPostType)postType);
 
             if (posts == null)
             {
-                return NotFound(request);
+                return NotFound();
             }
 
             var response = posts.Select(p => _adapter.Bind(p));
 
             return Ok(response);
         }
-        [HttpGet("id:int")]
+        [HttpGet("{id:int}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<PostResponse>> GetById(int id)
+        public async Task<ActionResult<PostResponse>> GetById([FromRoute]int id)
         {
             var post = await _db.Posts.GetAsync(p => p.PostId == id);
 
