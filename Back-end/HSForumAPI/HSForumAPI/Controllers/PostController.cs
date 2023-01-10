@@ -75,7 +75,7 @@ namespace HSForumAPI.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult<PostResponse>> GetById([FromRoute]int id)
         {
-            var post = await _db.Posts.GetAsync(p => p.PostId == id);
+            var post = await _db.Posts.GetWithRepliesAsync(p => p.PostId == id);
 
             if (post == null)
             {

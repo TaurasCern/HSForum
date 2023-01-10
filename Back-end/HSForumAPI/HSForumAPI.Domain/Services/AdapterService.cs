@@ -55,14 +55,18 @@ namespace HSForumAPI.Domain.Services
             UserId = userId
         };
 
-        public Rating Bind(RatingRequest request, int userId)
+        public Rating Bind(RatingRequest request, int userId) => new()
         {
-            throw new NotImplementedException();
-        }
+            IsPositive = request.IsPositive,
+            PostId = request.PostId,
+            UserId = userId
+        };
 
-        public RatingResponse Bind(Rating rating)
+        public RatingResponse Bind(Rating rating) => new()
         {
-            throw new NotImplementedException();
-        }
+            IsPositive = rating.IsPositive,
+            PostId = rating.PostId,
+            UserId= rating.UserId
+        };
     }
 }

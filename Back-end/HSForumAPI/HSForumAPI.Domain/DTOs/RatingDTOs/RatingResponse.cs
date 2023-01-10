@@ -16,6 +16,9 @@ namespace HSForumAPI.Domain.DTOs.RatingDTOs
         /// Post id of the post that was rated
         /// </summary>
         public int PostId { get; set; }
-
+        /// <summary>
+        /// User id of the user that rated the post
+        /// </summary>
+        public int UserId { get; set; }
     }
 }
