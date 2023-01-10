@@ -33,6 +33,7 @@ namespace HSForumAPI
             // Services
             builder.Services.AddScoped<IPasswordService, PasswordService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
+            builder.Services.AddScoped<IAdapterService, AdapterService>();
 
             builder.Services.AddHttpContextAccessor();
 

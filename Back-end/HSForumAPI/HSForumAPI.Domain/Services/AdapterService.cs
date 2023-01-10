@@ -14,19 +14,14 @@ namespace HSForumAPI.Domain.Services
 {
     public class AdapterService : IAdapterService
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public AdapterService(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
-
-        public Post Bind(PostRequest request) => new()
+        public Post Bind(PostRequest request, int userId) => new()
         {
             Title = request.Title,
             Content = request.Content,
             CreatedAt = DateTime.Now,
             PostTypeId = (int)(EPostType)Enum.Parse(typeof(EPostType), request.PostType),
-            UserId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name)
+            IsActive = true,
+            UserId = userId
         };
     }
 }

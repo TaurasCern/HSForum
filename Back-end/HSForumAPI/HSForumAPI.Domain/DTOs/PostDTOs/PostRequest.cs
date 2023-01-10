@@ -14,7 +14,8 @@ namespace HSForumAPI.Domain.DTOs.PostDTOs
         /// Title of the post
         /// </summary>
         [Required]
-        [Range(3,50, ErrorMessage = "Title length has to be from 3 to 50 characters long")]
+        [MinLength(3, ErrorMessage = "Title length has to be at least 3 characters long")]
+        [MaxLength(50, ErrorMessage = "Title length cannot be longer than 50 characters")]
         public string Title { get; set; }
         /// <summary>
         /// Contents of the post
@@ -27,8 +28,7 @@ namespace HSForumAPI.Domain.DTOs.PostDTOs
         /// 1. News
         /// </summary>
         [Required]
-        [Range(3, 50, ErrorMessage = "Title length has to be from 3 to 50 characters long")]
-        [EnumDataType(typeof(EPostType))]
+        [EnumDataType(typeof(EPostType), ErrorMessage = "Cannot parse given string")]
         public string PostType { get; set; }
     }
 }
