@@ -1,5 +1,6 @@
 ﻿using HSForumAPI.Domain.DTOs.PostDTOs;
 using HSForumAPI.Domain.DTOs.PostReplyDTOs;
+using HSForumAPI.Domain.DTOs.RatingDTOs;
 using HSForumAPI.Domain.DTOs.UserDTOs;
 using HSForumAPI.Domain.Enums;
 using HSForumAPI.Domain.Models;
@@ -53,5 +54,15 @@ namespace HSForumAPI.Domain.Services
             PostId = request.PostId,
             UserId = userId
         };
+
+        public Rating Bind(RatingRequest request, int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RatingResponse Bind(Rating rating)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
