@@ -23,5 +23,14 @@ namespace HSForumAPI.Domain.Services
             IsActive = true,
             UserId = userId
         };
+
+        public PostResponse Bind(Post post) => new()
+        {
+            PostId = post.PostId,
+            Title = post.Title,
+            Content = post.Content,
+            CreatedAt = post.CreatedAt,
+            UserId = post.UserId
+        };
     }
 }

@@ -45,7 +45,7 @@ namespace HSForumAPI.Controllers
 
             var created = _db.Posts.CreateAsync(post);
 
-            return Ok(await created);
+            return Ok(_adapter.Bind(await created));
         }
     }
 }
