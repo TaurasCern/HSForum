@@ -9,6 +9,6 @@ namespace HSForumAPI.Domain.Services.IServices
         Post Bind(PostRequest request, int userId);
         PostResponse Bind(Post post);
         PostReplyResponse Bind(PostReply reply);
-        PostReply Bind(PostReplyRequest request);
+        PostReply Bind(PostReplyRequest request, int userId);
     }
 }
