@@ -1,0 +1,28 @@
+.login-form-container {
+    display: flex;
+    flex-flow: column;
+
+    width: 400px;
+    margin: 0 auto;
+}
+.login-form {
+    display: flex;
+    flex-flow: column;
+
+    width: 400px;
+    margin: 0 auto;
+}
+.login-form label{
+    font-size: 20px;
+    align-self: center;
+}
+.login-form input{
+    font-size: 16px;
+    align-self: center;
+    padding: 3px;
+
+    border: 1px solid black;
+}
+.login-form-container div {
+    align-self: center;
+}

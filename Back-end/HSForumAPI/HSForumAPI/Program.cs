@@ -57,17 +57,11 @@ namespace HSForumAPI
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
-                });           
-
-
-
-            builder.Services.AddControllers();
-
-
+                });
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("_allowAll",
+                options.AddPolicy("_allowAny",
                     policy =>
                     {
                         policy
@@ -76,6 +70,8 @@ namespace HSForumAPI
                           .AllowAnyMethod();
                     });
             });
+
+            builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -126,6 +122,7 @@ namespace HSForumAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseCors("_allowAny");
 
             app.UseHttpsRedirection();
