@@ -1,0 +1,17 @@
+
+.post {
+    display: flex;
+    flex-flow: row;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.post .post-title {
+    width: 70%;
+}
+#post-header {
+     border-top: solid 1px black;
+}
+.post .post-title {
+    width: 70%;
+}
