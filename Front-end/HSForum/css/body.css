@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+header {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    align-items: center;
+}
+.header-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    width: 900px;
+    padding: 20px 40px;
+    margin-bottom: 60px;
+    background-color: lightgray;
+}
+.header-logo {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+.header-navbar {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+
+    width: 100%;
+}
+.header-navbar a {
+    font-size: 28px;
+}
+
+article {
+    width: 900px;
+    margin: 0 auto;
+}
