@@ -63,11 +63,12 @@ namespace HSForumAPI.Domain.Services
             UserId = userId
         };
 
-        public RatingResponse Bind(Rating rating) => new()
+        public RatingResponse Bind(Rating rating, bool wasAltered) => new()
         {
             IsPositive = rating.IsPositive,
             PostId = rating.PostId,
-            UserId= rating.UserId
+            UserId = rating.UserId,
+            WasAltered = wasAltered
         };
     }
 }
