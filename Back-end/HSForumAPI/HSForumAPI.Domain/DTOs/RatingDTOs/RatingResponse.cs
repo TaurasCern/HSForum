@@ -13,6 +13,10 @@ namespace HSForumAPI.Domain.DTOs.RatingDTOs
         /// </summary>
         public bool IsPositive { get; set; }
         /// <summary>
+        /// Was the existing rating altered
+        /// </summary>
+        public bool WasAltered { get; set; }
+        /// <summary>
         /// Post id of the post that was rated
         /// </summary>
         public int PostId { get; set; }

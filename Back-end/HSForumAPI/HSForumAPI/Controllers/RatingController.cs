@@ -29,6 +29,7 @@ namespace HSForumAPI.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin,Moderator,User")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
@@ -46,18 +47,23 @@ namespace HSForumAPI.Controllers
             {
                 var existingRating = await _db.Ratings.GetAsync(r => r.UserId == userId && r.PostId == post.PostId);
 
-                existingRating.IsPositive = request.IsPositive;
+                if(existingRating.IsPositive == request.IsPositive)
+                {
+                    return Ok(_adapter.Bind(existingRating, wasAltered: false));
+                }
+
+                existingRating.IsPositive = request.IsPositive; 
 
                 var updated =  await _db.Ratings.UpdateAsync(existingRating);
 
-                return Ok(_adapter.Bind(updated));
+                return Ok(_adapter.Bind(updated, wasAltered: true));
             }
 
             var rating = _adapter.Bind(request, userId);
 
             var created = _db.Ratings.CreateAsync(rating);
 
-            return Ok(_adapter.Bind(await created));
+            return Created("",_adapter.Bind(await created, wasAltered: false));
         }
     }
 }
