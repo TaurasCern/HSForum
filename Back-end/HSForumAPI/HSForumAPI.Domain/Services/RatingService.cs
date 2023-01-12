@@ -7,7 +7,8 @@ namespace HSForumAPI.Domain.Services
     {
         public int CalculateRating(Post post)
             => post.Ratings == null ? 0 
-                : post.Ratings.Select(r => r.IsPositive ? 1 : -1).Sum();
+                : post.Ratings.Select(r => r.IsPositive ? 1 : -1)
+                    .Sum();
 
         public bool CheckIfRated(Post post, int userId) 
             => post.Ratings == null ? false 
