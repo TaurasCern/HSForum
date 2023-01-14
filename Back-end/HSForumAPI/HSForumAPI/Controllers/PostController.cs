@@ -139,7 +139,7 @@ namespace HSForumAPI.Controllers
         }
         /// <summary>
         /// Deactivates the post by given Id.
-        /// Admin and Moderator roles can deactivate any post
+        /// Admin and Moderator roles can deactivate any post.
         /// User only can deactivate its own post
         /// </summary>
         /// <param name="id">Id of the post</param>
