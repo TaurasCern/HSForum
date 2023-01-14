@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSForumAPI", "HSForumAPI\HSForumAPI.csproj", "{31D193D2-1A2B-43A0-9ACF-7D4CDECA1064}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HSForumAPI", "HSForumAPI\HSForumAPI.csproj", "{31D193D2-1A2B-43A0-9ACF-7D4CDECA1064}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSForumAPI.Domain", "HSForumAPI.Domain\HSForumAPI.Domain.csproj", "{BE033C34-C6C8-4E4B-A1E0-47F6E0098FB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HSForumAPI.Domain", "HSForumAPI.Domain\HSForumAPI.Domain.csproj", "{BE033C34-C6C8-4E4B-A1E0-47F6E0098FB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSForumAPI.Infrastructure", "HSForumAPI.Infrastructure\HSForumAPI.Infrastructure.csproj", "{2E1810B7-5353-4D99-AAAB-400BB1C67E75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HSForumAPI.Infrastructure", "HSForumAPI.Infrastructure\HSForumAPI.Infrastructure.csproj", "{2E1810B7-5353-4D99-AAAB-400BB1C67E75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSForumAPI.Tests", "HSForumAPI.Tests\HSForumAPI.Tests.csproj", "{E219C969-E898-4BFF-8015-C6582DB3317B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{2E1810B7-5353-4D99-AAAB-400BB1C67E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E1810B7-5353-4D99-AAAB-400BB1C67E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E1810B7-5353-4D99-AAAB-400BB1C67E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E219C969-E898-4BFF-8015-C6582DB3317B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E219C969-E898-4BFF-8015-C6582DB3317B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E219C969-E898-4BFF-8015-C6582DB3317B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E219C969-E898-4BFF-8015-C6582DB3317B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
