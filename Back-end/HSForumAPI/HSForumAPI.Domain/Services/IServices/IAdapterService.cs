@@ -17,5 +17,6 @@ namespace HSForumAPI.Domain.Services.IServices
         PostUpdateRequest Bind(Post post);
         Post Bind(PostUpdateRequest request, int postId, int postTypeId, int userId);
         UserGetResponse Bind(LocalUser user, int reputation);
+        LoginResponse Bind(LocalUser user);
     }
 }
