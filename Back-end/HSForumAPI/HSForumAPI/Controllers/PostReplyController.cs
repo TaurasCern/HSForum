@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HSForumAPI.Controllers
 {
+    /// <summary>
+    /// Controller to handle PostReply endpoints
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -24,20 +27,34 @@ namespace HSForumAPI.Controllers
             _adapter = adapter;
             _httpContextAccessor = httpContextAccessor;
         }
+        /// <summary>
+        /// Adds new comment to the database
+        /// </summary>
+        /// <param name="request">PostReplyRequest</param>
+        /// <response code="401">You have to be logged in</response>
+        /// <remarks>
+        /// Sample:    
+        ///     POST PostReply
+        ///     {
+        ///         "content": "sampleContent",
+        ///         "postId": 1
+        ///     }
+        /// </remarks>
         [HttpPost]
         [Authorize(Roles = "Admin,Moderator,User")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(200, Type = typeof(PostReplyResponse))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<PostReplyResponse>> Post(PostReplyRequest request)
+        public async Task<ActionResult<PostReplyResponse>> Post([FromBody]PostReplyRequest request)
         {
-            if (!int.TryParse(_httpContextAccessor.HttpContext.User.Identity.Name,
-                    out int userId))
+            if(request == null)
             {
                 return BadRequest();
             }
+
+            var userId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
 
             var postReply = _adapter.Bind(request, userId);
 

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HSForumAPI.Controllers
 {
+    /// <summary>
+    /// Controller to handle Rating endpoints
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class RatingController : ControllerBase
@@ -26,24 +29,39 @@ namespace HSForumAPI.Controllers
             _httpContextAccessor = httpContextAccessor;
             _ratingService = ratingService;
         }
+        /// <summary>
+        /// Adds new rating to the database or updates, 
+        /// if there's an existing rating by the user
+        /// </summary>
+        /// <param name="request">RatingRequest</param>
+        /// <response code="400">Bad request body</response>
+        /// <response code="401">You have to be logged in</response>
+        /// <remarks>
+        /// Sample:    
+        ///     POST Rating
+        ///     {
+        ///         "isPositive": true,
+        ///         "postId": 1
+        ///     }
+        /// </remarks>
         [HttpPost]
-        [Authorize(Roles = "Admin,Moderator,User")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(201)]
+        [Authorize]
+        [ProducesResponseType(200, Type = typeof(RatingResponse))]
+        [ProducesResponseType(201, Type = typeof(RatingResponse))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public async Task<ActionResult<RatingResponse>> Post([FromBody]RatingRequest request)
         {
-            if (!int.TryParse(_httpContextAccessor.HttpContext.User.Identity.Name,
-                    out int userId))
+            if(request == null)
             {
                 return BadRequest();
             }
+            var userId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+
             var post = await _db.Posts.GetWithRepliesAsync(p => p.PostId == request.PostId);
             
-            if(_ratingService.CheckIfRated(post, userId))
+            if(await _ratingService.CheckIfRated(post, userId))
             {
                 var existingRating = await _db.Ratings.GetAsync(r => r.UserId == userId && r.PostId == post.PostId);
 
@@ -63,7 +81,7 @@ namespace HSForumAPI.Controllers
 
             var created = _db.Ratings.CreateAsync(rating);
 
-            return Created("",_adapter.Bind(await created, wasAltered: false));
+            return Created(nameof(Post),_adapter.Bind(await created, wasAltered: false));
         }
     }
 }
