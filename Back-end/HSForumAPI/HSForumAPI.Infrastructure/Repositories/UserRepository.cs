@@ -13,14 +13,17 @@ using System.Threading.Tasks;
 
 namespace HSForumAPI.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<LocalUser>, IUserRepository
     {
         private readonly HSForumContext _db;
         private readonly IPasswordService _passwordService;
         private readonly IUserRoleRepository _userRoleRepository;
 
         private readonly int _defaultRoleId = 1;
-        public UserRepository(HSForumContext db, IPasswordService passwordService, IJwtService jwtService, IUserRoleRepository userRoleRepository)
+        public UserRepository(HSForumContext db, 
+            IPasswordService passwordService,
+            IUserRoleRepository userRoleRepository)
+            : base(db)
         {
             _db = db;
             _passwordService = passwordService;
@@ -75,6 +78,6 @@ namespace HSForumAPI.Infrastructure.Repositories
 
             await _db.SaveChangesAsync();
             return user.UserId;
-        }  
+        }
     }
 }

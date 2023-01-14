@@ -39,7 +39,23 @@ namespace HSForumAPI.Infrastructure.Repositories
 
             return await query.FirstOrDefaultAsync();
         }
+        public async Task<List<Post>> GetAllWithRatingsAsync(Expression<Func<Post, bool>> filter, bool tracked = true)
+        {
+            IQueryable<Post> query = _db.Posts
+                .Include(p => p.Ratings);
 
+            if (!tracked)
+            {
+                query = query.AsNoTracking();
+            }
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return await query.ToListAsync();
+        }
         public async Task<Post> UpdateAsync(Post post)
         {
             post.UpdatedAt = DateTime.Now;
