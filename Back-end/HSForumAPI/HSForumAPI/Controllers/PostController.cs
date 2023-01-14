@@ -1,11 +1,9 @@
 ﻿using HSForumAPI.Domain.DTOs.PostDTOs;
 using HSForumAPI.Domain.Enums;
-using HSForumAPI.Domain.Models;
 using HSForumAPI.Domain.Services.IServices;
 using HSForumAPI.Infrastructure.Repositories.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HSForumAPI.Controllers
@@ -37,7 +35,7 @@ namespace HSForumAPI.Controllers
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<PostResponse>> Post([FromBody]PostRequest request)
+        public async Task<ActionResult<PostResponse>> Post(PostRequest request)
         {
             if (!int.TryParse(_httpContextAccessor.HttpContext.User.Identity.Name,
                 out int userId))
@@ -90,48 +88,6 @@ namespace HSForumAPI.Controllers
             var response = _adapter.Bind(post, _ratingService.CalculateRating(post));
 
             return Ok(response);
-        }
-        [HttpPatch("patch/{id:int}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(401)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
-        public async Task<ActionResult<PostResponse>> Patch([FromRoute] int id, [FromBody] JsonPatchDocument<PostUpdateRequest> request)
-        {
-            if (id == 0 || request == null)
-            {
-                return BadRequest();
-            }
-
-            if (!await _db.Posts.ExistAsync(p => p.PostId == id))
-            {
-                return NotFound();
-            }
-
-            var userId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
-
-            var foundPost = await _db.Posts.GetAsync(p => p.PostId == id, tracked: false);
-
-            if(foundPost.UserId != userId)
-            {
-                return Unauthorized();
-            }
-
-            var updateRequest = _adapter.Bind(foundPost);
-
-            request.ApplyTo(updateRequest, ModelState);
-
-            var post = _adapter.Bind(updateRequest, foundPost.PostId, foundPost.PostTypeId ,foundPost.UserId);
-
-            await _db.Posts.UpdateAsync(post);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            return Ok();
         }
     }
 }
