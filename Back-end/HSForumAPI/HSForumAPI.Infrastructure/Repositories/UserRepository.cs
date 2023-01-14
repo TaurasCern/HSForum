@@ -17,15 +17,13 @@ namespace HSForumAPI.Infrastructure.Repositories
     {
         private readonly HSForumContext _db;
         private readonly IPasswordService _passwordService;
-        private readonly IJwtService _jwtService;
         private readonly IUserRoleRepository _userRoleRepository;
+
         private readonly int _defaultRoleId = 1;
-        private readonly ERole _defaultRole = ERole.User;
         public UserRepository(HSForumContext db, IPasswordService passwordService, IJwtService jwtService, IUserRoleRepository userRoleRepository)
         {
             _db = db;
             _passwordService = passwordService;
-            _jwtService = jwtService;
             _userRoleRepository = userRoleRepository;
         }
         /// <summary>
@@ -34,52 +32,38 @@ namespace HSForumAPI.Infrastructure.Repositories
         /// <param name="username">Registration username</param>
         /// <returns>A flag indicating if username already exists</returns>
         public async Task<bool> IsRegisteredAsync(string username, string email) 
-            => await _db.Users.AnyAsync(u => u.Username.ToLower() == username.ToLower()
-                                             || u.Email.ToLower() == email.ToLower());
+            => await _db.Users
+                        .AnyAsync(u => u.Username.ToLower() == username.ToLower()
+                                    || u.Email.ToLower() == email.ToLower());
         /// <summary>
-        /// Checks if login request is valid and returns the token if valid
+        /// Checks if login request is valid and returns tuple with boolean if it was success and user
         /// </summary>
-        /// <param name="loginRequest"></param>
-        /// <returns>Token if valid or null if not</returns>
-        public async Task<string?> LoginAsync(LoginRequest loginRequest)
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="user"></param>
+        /// <returns>Tuple bool Is successful and user</returns>
+        public async Task<Tuple<bool,LocalUser?>> TryLoginAsync(string username, string password)
         {
-            var user = await _db.Users
+             var user = await _db.Users
                 .Include(u => u.UserRoles)
                 .ThenInclude(ur => ur.Role)
-                .FirstOrDefaultAsync(u => u.Username.ToLower() == loginRequest.Username.ToLower());
+                .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
 
             if (user == null)
-            {
-                return null;
-            }
+                return new (false, user);
 
-            if(!_passwordService.VerifyPasswordHash(loginRequest.Password, user.PasswordHash, user.PasswordSalt))
-            {
-                return null;
-            }
+            if(!_passwordService.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+                return new (false, user);
 
-            return _jwtService.GetJwtToken(user.UserId,
-                user.UserRoles
-                    .Select(ur => ur.Role.Name.ToString()).ToArray());
+            return new (true, user);
         }
         /// <summary>
-        /// Adds new user and Many-to-many UserRole to the database and returns token if successful
+        /// Adds new user return id
         /// </summary>
-        /// <param name="registrationRequest"></param>
-        /// <returns>Token if valid or null if not</returns>
-        public async Task<string?> RegisterAsync(RegistrationRequest registrationRequest)
+        /// <param name="user"></param>
+        /// <returns>Id</returns>
+        public async Task<int> RegisterAsync(LocalUser user)
         {
-            _passwordService.CreatePasswordHash(registrationRequest.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            LocalUser user = new()
-            {
-                Username = registrationRequest.Username,
-                Email = registrationRequest.Email,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                CreatedAt = DateTime.Now
-            };
-
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
 
@@ -89,7 +73,8 @@ namespace HSForumAPI.Infrastructure.Repositories
                 RoleId = _defaultRoleId
             });
 
-            return _jwtService.GetJwtToken(user.UserId, new string[1] { _defaultRole.ToString() }); ;
+            await _db.SaveChangesAsync();
+            return user.UserId;
         }  
     }
 }

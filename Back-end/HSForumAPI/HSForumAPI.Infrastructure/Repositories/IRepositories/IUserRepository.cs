@@ -10,8 +10,8 @@ namespace HSForumAPI.Infrastructure.Repositories.IRepositories
 {
     public interface IUserRepository
     {
-        Task<string?> LoginAsync(LoginRequest loginRequest);
-        Task<string?> RegisterAsync(RegistrationRequest registrationRequest);
+        Task<Tuple<bool, LocalUser?>> TryLoginAsync(string username, string password);
+        Task<int> RegisterAsync(LocalUser user);
         Task<bool> IsRegisteredAsync(string username, string email);
     }
 }

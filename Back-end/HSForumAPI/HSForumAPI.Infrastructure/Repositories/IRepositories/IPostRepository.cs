@@ -11,5 +11,6 @@ namespace HSForumAPI.Infrastructure.Repositories.IRepositories
     public interface IPostRepository : IRepository<Post>
     {
         Task<Post> GetWithRepliesAsync(Expression<Func<Post, bool>> filter, bool tracked = true);
+        Task<Post> UpdateAsync(Post post);
     }
 }
