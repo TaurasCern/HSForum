@@ -87,5 +87,12 @@ namespace HSForumAPI.Domain.Services
             PostTypeId = postTypeId,
             UserId = userId
         };
+
+        public UserGetResponse Bind(LocalUser user, int reputation) => new()
+        {
+            Username = user.Username,
+            CreatedAt = user.CreatedAt,
+            Reputation = reputation
+        };
     }
 }
