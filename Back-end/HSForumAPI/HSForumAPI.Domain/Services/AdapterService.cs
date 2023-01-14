@@ -33,9 +33,7 @@ namespace HSForumAPI.Domain.Services
             Content = post.Content,
             CreatedAt = post.CreatedAt,
             UserId = post.UserId,
-            Replies = post.Replies == null ? null 
-                : post.Replies
-                    .Select(r => Bind(r))
+            Replies = post.Replies?.Select(r => Bind(r))
                         .ToArray(),
             Rating = rating
         };
@@ -93,6 +91,14 @@ namespace HSForumAPI.Domain.Services
             Username = user.Username,
             CreatedAt = user.CreatedAt,
             Reputation = reputation
+        };
+
+        public LoginResponse Bind(LocalUser user) => new()
+        {
+            UserId = user.UserId,
+            Roles = user.UserRoles
+                        .Select(ur => ur.Role.Name.ToString())
+                            .ToArray()
         };
     }
 }

@@ -58,11 +58,14 @@ namespace HSForumAPI.Controllers
             if (!result.Item1)
                 return Unauthorized();
 
+            var response = _adapter.Bind(result.Item2);
+
             var token = _jwtService
-                .GetJwtToken(result.Item2.UserId,
-                    result.Item2.UserRoles
-                        .Select(ur => ur.Role.Name.ToString()).ToArray());
-            return Ok(new { token });
+                .GetJwtToken(result.Item2.UserId, response.Roles);
+
+            response.Token = token;
+
+            return Ok(response);
         }
         /// <summary>
         /// Registration request
@@ -127,7 +130,7 @@ namespace HSForumAPI.Controllers
                 return BadRequest();
             }
 
-            if(!await _db.Users.ExistAsync(id))
+            if(!await _db.Users.ExistAsync(u => u.UserId == id))
             {
                 return NotFound();
             }
