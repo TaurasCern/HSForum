@@ -13,5 +13,7 @@ namespace HSForumAPI.Domain.Services.IServices
         PostReply Bind(PostReplyRequest request, int userId);
         Rating Bind(RatingRequest request, int userId);
         RatingResponse Bind(Rating rating, bool wasAltered);
+        PostUpdateRequest Bind(Post post);
+        Post Bind(PostUpdateRequest request, int postId, int postTypeId, int userId);
     }
 }

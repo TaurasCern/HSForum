@@ -70,5 +70,22 @@ namespace HSForumAPI.Domain.Services
             UserId = rating.UserId,
             WasAltered = wasAltered
         };
+
+        public PostUpdateRequest Bind(Post post) => new()
+        {
+            Title = post.Title,
+            Content = post.Content,
+            CreatedAt = post.CreatedAt
+        };
+
+        public Post Bind(PostUpdateRequest request, int postId, int postTypeId, int userId) => new()
+        {
+            PostId = postId,
+            Title = request.Title,
+            Content = request.Content,
+            CreatedAt = request.CreatedAt,
+            PostTypeId = postTypeId,
+            UserId = userId
+        };
     }
 }
