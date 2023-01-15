@@ -43,7 +43,10 @@ namespace HSForumAPI.Controllers
         /// <remarks>
         /// PostType can only be (case sensitive):
         /// 1. News
-        /// 
+        /// 2. Tech_help
+        /// 3. Intel
+        /// 4. AMD
+        /// 5. Nvidia
         /// Sample:    
         ///     POST Post
         ///     {
@@ -94,7 +97,7 @@ namespace HSForumAPI.Controllers
             {
                 return BadRequest();
             }
-            var posts = await _db.Posts.GetAllAsync(p => p.PostType.Type == (EPostType)postType && p.IsActive == true);
+            var posts = await _db.Posts.GetAllWithRatingsAsync(p => p.PostType.Type == (EPostType)postType && p.IsActive == true);
 
             if (posts == null)
             {
