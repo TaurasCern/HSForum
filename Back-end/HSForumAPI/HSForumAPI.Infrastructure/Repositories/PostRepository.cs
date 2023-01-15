@@ -56,7 +56,7 @@ namespace HSForumAPI.Infrastructure.Repositories
 
             return await query.ToListAsync();
         }
-        public async Task<Post> UpdateAsync(Post post)
+        public override async Task<Post> UpdateAsync(Post post)
         {
             post.UpdatedAt = DateTime.Now;
 

@@ -77,5 +77,12 @@ namespace HSForumAPI.Infrastructure.Repositories
 
             return await query.AnyAsync(filter);
         }
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
+        {
+            _dbSet.Update(entity);
+            await _db.SaveChangesAsync();
+
+            return entity;
+        }
     }
 }

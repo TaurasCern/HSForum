@@ -16,6 +16,7 @@ namespace HSForumAPI
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPostReplyRepository, PostReplyRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
+            services.AddScoped<IPostTypeRepository, PostTypeRepository>();
 
             return services;
         }

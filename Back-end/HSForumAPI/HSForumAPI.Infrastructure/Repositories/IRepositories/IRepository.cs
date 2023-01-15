@@ -14,6 +14,7 @@ namespace HSForumAPI.Infrastructure.Repositories.IRepositories
         Task<bool> ExistAsync(Expression<Func<TEntity, bool>> filter);
         Task<TEntity> CreateAsync(TEntity entity);
         Task RemoveAsync(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity entity);
         Task SaveAsync();
     }
 }
