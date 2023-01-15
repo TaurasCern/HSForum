@@ -14,14 +14,18 @@ const loadPostTypes = async () => {
 
     if(response.ok){
         let json = await response.json()
-
+        let html = `<ul class="post-type-list">`
         json.forEach(element => {
-            document.querySelector(`.post-type-container`).innerHTML += `
-            <a href="posts.html?type=${element.type}" class="post-type">
-                ${element.type}
-            </a>
+            html += `
+            <li class="post-type">
+                <a href="posts.html?type=${element.type}">${element.type}</a>
+            </li>
         `;
         });
+        document.querySelector(`.post-type-container`).innerHTML += html +`</ul>`;
     }
     else console.log(response.status);
+}
+const redirectToPosts = (type) => {
+    window.location.assign(`posts.html?type=${type}`);
 }
