@@ -43,8 +43,6 @@ const registerFetch = async (username, email, password) => {
     })
 
     if(response.ok){
-        let json = await response.json();
-        localStorage.setItem(`token`, json.token);
         document.location.assign(`index.html`);
     }
     else console.log(response.status);

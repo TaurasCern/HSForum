@@ -42,6 +42,9 @@ const loginFetch = async (username, password) => {
     if(response.ok){
         let json = await response.json();
         localStorage.setItem(`token`, json.token);
+        localStorage.setItem(`roles`, json.roles.join(`,`));
+        localStorage.setItem(`id`, json.userId);
+
         document.location.assign(`index.html`);
     }
     else console.log(response.status);
