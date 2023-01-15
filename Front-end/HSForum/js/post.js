@@ -1,5 +1,5 @@
 let id;
-
+let type;
 window.onload = async () => {
     insertHeader();
  
@@ -31,6 +31,8 @@ const loadPost = async () => {
 
     if(response.ok){
         let json = await response.json();
+        let del = formatDeleteButton(json);
+        let edit = formatEditButton(json);
         document.querySelector(`article`).innerHTML = `
         <div class="post-container">
             <div class="post">
@@ -51,8 +53,10 @@ const loadPost = async () => {
                 <a id="positive-vote" onclick="ratePost(true)">+</a>
                 <a id="negative-vote" onclick="ratePost(false)">-</a>
             </div>
+            ${del}${edit}
         </div>
         <div class="comments-container"></div>`;
+
         if(json.replies.length != 0){
             let commentsContainer = document.querySelector(`.comments-container`);
             json.replies.forEach(element => {
@@ -62,6 +66,72 @@ const loadPost = async () => {
     }
     else console.log(response.status);
 }
+const formatDeleteButton = (post) => {
+    let roles = localStorage.getItem(`roles`).split(`,`);
+
+    if(roles.includes(`Moderator`) 
+    || roles.includes(`Admin`) 
+    || localStorage.getItem(`id`) == post.userId){
+        return `<a id="delete-button" onclick="deletePost()">Delete</a>`;
+    }
+    return ``;
+}
+const deletePost = async () => {
+    let response = await fetch(`http://localhost:5084/api/Post/${id}`, {
+        method: `delete`,
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem(`token`)}`
+        },
+    })
+
+    if(response.ok){
+        window.location.assign(`forum.html`);
+    }
+    else console.log(response.status);
+}
+const formatEditButton = (post) => {
+    if(localStorage.getItem(`id`) == post.userId){
+        return `<a id="edit-button" onclick="editPost()">Edit</a>`;
+    }
+    return ``;
+}
+const editPost = () => {
+    document.querySelector(`.post-title`).setAttribute(`contenteditable`, `true`);
+    document.querySelector(`.post-content`).setAttribute(`contenteditable`, `true`);
+    let editButton = document.querySelector(`#edit-button`);
+    editButton.setAttribute(`onclick`, `updatePost()`);
+    editButton.innerHTML = `Confirm`;
+}
+const updatePost = async () => {
+    let response = await fetch(`http://localhost:5084/api/Post/Patch/${id}`, {
+        method: `patch`,
+        headers: {
+            'Content-Type': `application/json`,
+            'Authorization': `Bearer ${localStorage.getItem(`token`)}`    
+        },
+        body: JSON.stringify([
+            {
+                op: `replace`,
+                path: `title`,
+                value: document.querySelector(`.post-title`).innerHTML.trimStart(` `).trimEnd(` `)
+            },
+            {
+                op: `replace`,
+                path: `content`,
+                value: document.querySelector(`.post-content`).innerHTML.trimStart(` `).trimEnd(` `)
+            }
+        ])
+    })
+
+    if(response.ok){
+        document.querySelector(`.post-title`).setAttribute(`contenteditable`, `false`);
+        document.querySelector(`.post-content`).setAttribute(`contenteditable`, `false`);
+        let editButton = document.querySelector(`#edit-button`);
+        editButton.setAttribute(`onclick`, `editPost()`);
+        editButton.innerHTML = `Edit`;
+    }
+    else console.log(response.status);
+} 
 const formatComment = (comment) => {
     return `
         <div class="comment" id="${comment.replyId}">
@@ -75,7 +145,6 @@ const loadCommentCeateContainer = () => {
         <form class="comment-form">
             <label for="content">Comment:</label>
             <input type="text" name="content" id="content" autocomplete="off">
-
             <input type="button" name="comment-button" id="comment-button" value="Comment">
         </form>
     `;
