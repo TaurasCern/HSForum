@@ -9,13 +9,23 @@ window.onload = () => {
 
     if(type != null){
         loadPosts(type);
+
+        let token = localStorage.getItem(`token`);
+        if(token != undefined && token != null){
+            let article = document.querySelector(`article`);
+            article.innerHTML = `<a class="post-open-button">Post</a>` + article.innerHTML;              
+        }
+
         loadEventListeners();
     }
+    
     else window.location.assign("index.html");
 }
 
 const loadEventListeners = () => {
-    loadCreatePostButton();
+    if(localStorage.getItem(`token`) != undefined && localStorage.getItem(`token`) != null){
+        loadCreatePostButton();
+    }
 }
 const loadPosts = async (type) => {
     let response = await fetch(`http://localhost:5084/api/Post/${type}`, {
@@ -38,14 +48,19 @@ const loadPosts = async (type) => {
 
 const insertPost = (container, post) => {
     container.innerHTML += `
-    <div class="post">
-        <a class="post-title" href="post.html?id=${post.postId}">
-            ${post.title}
+    <li class="post">
+        <a class="post" href="post.html?id=${post.postId}">
+            <div class="post-title">
+                ${post.title}   
+            </div>
+            <div class="post-date">
+                ${(new Date(post.createdAt)).toLocaleString()}
+            </div>
+            <div class="post-rating">
+                ${post.rating}
+            </div>
         </a>
-        <div class="post-date">
-            ${(new Date(post.createdAt)).toLocaleString()}
-        </div>
-    </div>
+    </li>
     `;
 }
 
@@ -53,9 +68,11 @@ const loadCreatePostButton = () => {
     document.querySelector(`.post-open-button`).addEventListener(`click`, () => {
         if(document.querySelector(`.create-post-form`) === null){
             insertCreatePost();
+            document.querySelector(`.post-open-button`).innerHTML = `Close`;           
         }
         else{
             document.querySelector(`.create-post-form`).remove();
+            document.querySelector(`.post-open-button`).innerHTML = `Post`;
         }
     });
 };

@@ -1,17 +1,44 @@
-
-.post {
+li a {
     display: flex;
     flex-flow: row;
-    border-right: 1px solid black;
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
 }
-.post .post-title {
+.post-title {
     width: 70%;
 }
-#post-header {
-     border-top: solid 1px black;
+.post-date {
+    width: 25%;
 }
-.post .post-title {
-    width: 70%;
+.post-open-button, #post-button {
+    display: flex;
+    background-color: #3D4166;
+    width: 100px;
+    height: 30px;
+
+    font-size: 20px;
+    color: #F1FAEE;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 30px;
+
+    border-radius: 5px;
+}
+.create-post-form {
+    display: flex;
+    flex-flow: column;
+    margin-bottom: 30px;
+}
+.create-post-form label{
+    color: #F1FAEE;
+}
+.create-post-form input {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #A6A9C9;
+}
+.create-post-form textarea {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #A6A9C9;
 }
