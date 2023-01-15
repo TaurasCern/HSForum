@@ -64,7 +64,9 @@ namespace HSForumAPI.Controllers
 
             var created = _db.PostReplies.CreateAsync(postReply);
 
-            return Ok(_adapter.Bind(await created));
+            var user = await _db.Users.GetAsync(u => u.UserId == userId);
+
+            return Ok(_adapter.Bind(await created, user.Username));
         }
         /// <summary>
         /// Deactivates the post reply by given Id.
