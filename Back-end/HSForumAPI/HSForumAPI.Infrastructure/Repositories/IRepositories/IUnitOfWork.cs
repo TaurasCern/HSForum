@@ -7,6 +7,7 @@
         IPostRepository Posts { get; }
         IPostReplyRepository PostReplies { get; }
         IRatingRepository Ratings { get; }
+        IPostTypeRepository PostTypes { get; }
         Task SaveAsync();
     }
 }

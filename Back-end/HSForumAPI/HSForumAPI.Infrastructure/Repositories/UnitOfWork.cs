@@ -16,13 +16,15 @@ namespace HSForumAPI.Infrastructure.Repositories
         public IPostRepository Posts { get; private set; }
         public IPostReplyRepository PostReplies { get; private set; }
         public IRatingRepository Ratings { get; private set; }
+        public IPostTypeRepository PostTypes { get; private set; }
 
         public UnitOfWork(HSForumContext db, 
             IUserRepository userRepository,
             IUserRoleRepository userRoleRepository,
             IPostRepository posts,
             IPostReplyRepository postReplies,
-            IRatingRepository ratings)
+            IRatingRepository ratings,
+            IPostTypeRepository postTypes)
         {
             _db = db;
             Users = userRepository;
@@ -30,6 +32,7 @@ namespace HSForumAPI.Infrastructure.Repositories
             Posts = posts;
             PostReplies = postReplies;
             Ratings = ratings;
+            PostTypes = postTypes;
         }
         public async Task SaveAsync()
         {
