@@ -10,5 +10,6 @@
         public Post Post { get; set; }
         public int UserId { get; set; }
         public LocalUser User { get; set; }
+        public bool IsActive { get; set; }
     }
 }

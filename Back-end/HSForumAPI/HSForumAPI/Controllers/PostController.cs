@@ -20,7 +20,7 @@ namespace HSForumAPI.Controllers
         private readonly IAdapterService _adapter;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRatingService _ratingService;
-        private readonly ILogger<PostController> _logger;
+        private readonly ILogger<PostController> _logger;   
         public PostController(
             IUnitOfWork db,
             IAdapterService adapter,
@@ -133,6 +133,8 @@ namespace HSForumAPI.Controllers
                 return NotFound(new { id });
             }
 
+            post.Replies = post.Replies.Where(r => r.IsActive == true).ToArray();
+
             var response = _adapter.Bind(post, await _ratingService.CalculateRating(post));
 
             return Ok(response);
@@ -170,14 +172,15 @@ namespace HSForumAPI.Controllers
 
             var post = await _db.Posts.GetAsync(p => p.PostId == id);
 
+            var userId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
+
             if (roles.Contains("Admin") || roles.Contains("Moderator"))
             {
                 post.IsActive = false;
                 await _db.Posts.UpdateAsync(post);
+                _logger.LogInformation("User: {userId} deactivated Post: {postId}", userId, post.PostId);
                 return Ok();
             }
-
-            var userId = int.Parse(_httpContextAccessor.HttpContext.User.Identity.Name);
 
             if(post.UserId != userId)
             {
@@ -186,6 +189,7 @@ namespace HSForumAPI.Controllers
 
             post.IsActive = false;
             await _db.Posts.UpdateAsync(post);
+            _logger.LogInformation("User: {userId} deactivated Post: {postId}", userId, post.PostId);
 
             return Ok();
         }
@@ -247,7 +251,7 @@ namespace HSForumAPI.Controllers
 
             request.ApplyTo(updateRequest, ModelState);
 
-            var post = _adapter.Bind(updateRequest, foundPost.PostId, foundPost.PostTypeId, foundPost.UserId);
+            var post = _adapter.Bind(updateRequest, foundPost.PostId, foundPost.PostTypeId, foundPost.UserId, foundPost.IsActive);
 
             await _db.Posts.UpdateAsync(post);
 
