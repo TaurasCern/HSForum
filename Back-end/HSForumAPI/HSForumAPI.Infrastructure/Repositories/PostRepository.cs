@@ -22,8 +22,8 @@ namespace HSForumAPI.Infrastructure.Repositories
         public async Task<Post> GetWithRepliesAsync(Expression<Func<Post, bool>> filter, bool tracked = true)
         {
             IQueryable<Post> query = _db.Posts
-                .Include(p => p.Replies);
-            query = query
+                .Include(p => p.Replies)
+                .ThenInclude(r => r.User)
                 .Include(p => p.Ratings);
 
 
