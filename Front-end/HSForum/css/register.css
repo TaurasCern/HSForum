@@ -1,16 +1,20 @@
 .register-form-container {
     display: flex;
     flex-flow: column;
-
+    background-color: #080A0C;
     width: 400px;
     margin: 0 auto;
+    padding-bottom: 15px;
+    border-radius: 5px;
 }
 .register-form {
     display: flex;
     flex-flow: column;
-
     width: 400px;
+    height: 400px;
     margin: 0 auto;
+    color: #F1FAEE;
+    justify-content: space-evenly;
 }
 .register-form label{
     font-size: 20px;
@@ -20,9 +24,30 @@
     font-size: 16px;
     align-self: center;
     padding: 3px;
-
+    background-color: #A6A9C9;
     border: 1px solid black;
 }
 .register-form-container div {
     align-self: center;
+}
+div {
+    color: #F1FAEE;
+}
+.link {
+    text-decoration: underline;
+}
+#register-button {
+    display: flex;
+    background-color: #3D4166;
+    width: 100px;
+    height: 30px;
+
+    font-size: 20px;
+    color: #F1FAEE;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 5px;
+
+    border-radius: 5px;
 }

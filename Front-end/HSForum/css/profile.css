@@ -1,0 +1,26 @@
+.account-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+    
+    background-color: #0E1116;
+    color: #F1FAEE;
+
+    height: 100px;
+    padding: 5px;
+    border-radius: 5px;
+}
+#logout-button {
+    display: flex;
+    background-color: #3D4166;
+    width: 100px;
+    height: 30px;
+    margin-right: 10px;
+    font-size: 18px;
+    color: #F1FAEE;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 5px;
+    margin-top: 5px;
+}
