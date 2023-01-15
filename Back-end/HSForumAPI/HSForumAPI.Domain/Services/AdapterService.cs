@@ -9,6 +9,9 @@ using HSForumAPI.Domain.Services.IServices;
 
 namespace HSForumAPI.Domain.Services
 {
+    /// <summary>
+    /// Class to convert To or from DTO
+    /// </summary>
     public class AdapterService : IAdapterService
     {
         public Post Bind(PostRequest request, int userId) => new()
@@ -32,13 +35,21 @@ namespace HSForumAPI.Domain.Services
                         .ToArray(),
             Rating = rating
         };
-
         public PostReplyResponse Bind(PostReply reply) => new()
         {
             ReplyId = reply.ReplyId,
             Content = reply.Content,
             CreatedAt = reply.CreatedAt,
-            UserId = reply.UserId
+            UserId = reply.UserId,
+            Username = reply.User == null ? null : reply.User.Username
+        };
+        public PostReplyResponse Bind(PostReply reply, string username) => new()
+        {
+            ReplyId = reply.ReplyId,
+            Content = reply.Content,
+            CreatedAt = reply.CreatedAt,
+            UserId = reply.UserId,
+            Username = username
         };
 
         public PostReply Bind(PostReplyRequest request, int userId) => new()
@@ -83,11 +94,12 @@ namespace HSForumAPI.Domain.Services
             IsActive = isActive
         };
 
-        public UserGetResponse Bind(LocalUser user, int reputation) => new()
+        public UserGetResponse Bind(LocalUser user, int reputation, int postCount) => new()
         {
             Username = user.Username,
             CreatedAt = user.CreatedAt,
-            Reputation = reputation
+            Reputation = reputation,
+            PostCount = postCount
         };
 
         public LoginResponse Bind(LocalUser user) => new()
