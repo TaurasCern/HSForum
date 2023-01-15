@@ -92,15 +92,15 @@ namespace HSForumAPI.Controllers
             if (await _db.Users.IsRegisteredAsync(req.Username, req.Email))
                 return BadRequest("User already exists");
 
-            _passwordService.CreatePasswordHash(req.Password, out var passwordHash, out var passwordSalt);
+            var hashAndSalt = _passwordService.CreatePasswordHash(req.Password);
 
             var user = new LocalUser
             {
                 Username = req.Username,
                 Email = req.Email,
                 CreatedAt = DateTime.Now,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                PasswordHash = hashAndSalt.Item1,
+                PasswordSalt = hashAndSalt.Item2
             };
 
             var id = await _db.Users.RegisterAsync(user);
@@ -137,9 +137,9 @@ namespace HSForumAPI.Controllers
 
             var user = await _db.Users.GetAsync(u => u.UserId == id);
 
-            var userPosts = await _db.Posts.GetAllWithRatingsAsync(p => p.UserId == user.UserId);
+            var userPosts = await _db.Posts.GetAllWithRatingsAsync(p => p.UserId == user.UserId && p.IsActive == true);
 
-            var response = _adapter.Bind(user, await _ratingService.CalculateUserReputation(userPosts)); 
+            var response = _adapter.Bind(user, await _ratingService.CalculateUserReputation(userPosts), userPosts.Count); 
 
             return Ok(response);
         }
