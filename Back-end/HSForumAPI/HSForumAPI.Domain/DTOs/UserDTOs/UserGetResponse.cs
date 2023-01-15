@@ -14,5 +14,9 @@
         /// Combined ratings of all user posts
         /// </summary>
         public int Reputation { get; set; }
+        /// <summary>
+        /// Count of posts the user has made
+        /// </summary>
+        public int PostCount { get; set; }
     }
 }

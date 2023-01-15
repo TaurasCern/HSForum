@@ -18,5 +18,9 @@
         /// Id of the user who made the reply
         /// </summary>
         public int UserId { get; set; }
+        /// <summary>
+        /// Username of the user who made the reply
+        /// </summary>
+        public string Username { get; set; }
     }
 }
