@@ -104,8 +104,7 @@ const post = async () => {
     })
 
     if(response.ok){
-
-        window.location.reload()
+        insertPost(document.querySelector(`.posts-container`), await response.json())
     }
     else console.log(response.status);
 };
