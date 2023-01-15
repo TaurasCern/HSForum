@@ -1,5 +1,6 @@
 ﻿using HSForumAPI.Domain.DTOs.PostDTOs;
 using HSForumAPI.Domain.DTOs.PostReplyDTOs;
+using HSForumAPI.Domain.DTOs.PostTypeDTOs;
 using HSForumAPI.Domain.DTOs.RatingDTOs;
 using HSForumAPI.Domain.DTOs.UserDTOs;
 using HSForumAPI.Domain.Models;
@@ -15,8 +16,9 @@ namespace HSForumAPI.Domain.Services.IServices
         Rating Bind(RatingRequest request, int userId);
         RatingResponse Bind(Rating rating, bool wasAltered);
         PostUpdateRequest Bind(Post post);
-        Post Bind(PostUpdateRequest request, int postId, int postTypeId, int userId);
+        Post Bind(PostUpdateRequest request, int postId, int postTypeId, int userId, bool isActive);
         UserGetResponse Bind(LocalUser user, int reputation);
         LoginResponse Bind(LocalUser user);
+        PostTypeResponse Bind(PostType postType);
     }
 }

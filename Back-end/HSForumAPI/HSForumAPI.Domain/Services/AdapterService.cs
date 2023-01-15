@@ -1,16 +1,11 @@
 ﻿using HSForumAPI.Domain.DTOs.PostDTOs;
 using HSForumAPI.Domain.DTOs.PostReplyDTOs;
+using HSForumAPI.Domain.DTOs.PostTypeDTOs;
 using HSForumAPI.Domain.DTOs.RatingDTOs;
 using HSForumAPI.Domain.DTOs.UserDTOs;
 using HSForumAPI.Domain.Enums;
 using HSForumAPI.Domain.Models;
 using HSForumAPI.Domain.Services.IServices;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HSForumAPI.Domain.Services
 {
@@ -51,7 +46,8 @@ namespace HSForumAPI.Domain.Services
             Content = request.Content,
             CreatedAt = DateTime.Now,
             PostId = request.PostId,
-            UserId = userId
+            UserId = userId,
+            IsActive = true,
         };
 
         public Rating Bind(RatingRequest request, int userId) => new()
@@ -76,14 +72,15 @@ namespace HSForumAPI.Domain.Services
             CreatedAt = post.CreatedAt
         };
 
-        public Post Bind(PostUpdateRequest request, int postId, int postTypeId, int userId) => new()
+        public Post Bind(PostUpdateRequest request, int postId, int postTypeId, int userId, bool isActive) => new()
         {
             PostId = postId,
             Title = request.Title,
             Content = request.Content,
             CreatedAt = request.CreatedAt,
             PostTypeId = postTypeId,
-            UserId = userId
+            UserId = userId,
+            IsActive = isActive
         };
 
         public UserGetResponse Bind(LocalUser user, int reputation) => new()
@@ -99,6 +96,11 @@ namespace HSForumAPI.Domain.Services
             Roles = user.UserRoles
                         .Select(ur => ur.Role.Name.ToString())
                             .ToArray()
+        };
+
+        public PostTypeResponse Bind(PostType postType) => new()
+        {
+            Type = postType.Type.ToString()
         };
     }
 }
