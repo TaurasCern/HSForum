@@ -31,29 +31,33 @@ const loadPost = async () => {
 
     if(response.ok){
         let json = await response.json();
-        let del = formatDeleteButton(json);
+        let del = formatDeletePostButton(json);
         let edit = formatEditButton(json);
         document.querySelector(`article`).innerHTML = `
         <div class="post-container">
             <div class="post">
                 <div class="post-title">
-                ${json.title}
+                    ${json.title}
+                </div>
+                <div class="post-content">
+                    ${json.content}
+                </div>
+                <div class="post-info">
+                    <div class="vote-container">
+                        <div class="rating">
+                            ${json.rating}
+                        </div>
+                        <a id="positive-vote" onclick="ratePost(true)">+</a>
+                        <a id="negative-vote" onclick="ratePost(false)">-</a>
+                    </div>
+                    <div class="post-date">
+                        ${(new Date(json.createdAt)).toLocaleString()}
+                    </div>
+                </div>
+                <div class="post-actions">
+                ${del}${edit}
+                </div>
             </div>
-            <div class="post-content">
-                ${json.content}
-            </div>
-            <div class="post-date">
-                ${(new Date(json.createdAt)).toLocaleString()}
-            </div>
-            <div class="rating">
-                ${json.rating}
-            </div>
-            </div>
-            <div class="vote-container">
-                <a id="positive-vote" onclick="ratePost(true)">+</a>
-                <a id="negative-vote" onclick="ratePost(false)">-</a>
-            </div>
-            ${del}${edit}
         </div>
         <div class="comments-container"></div>`;
 
@@ -66,9 +70,14 @@ const loadPost = async () => {
     }
     else console.log(response.status);
 }
-const formatDeleteButton = (post) => {
-    let roles = localStorage.getItem(`roles`).split(`,`);
+const formatDeletePostButton = (post) => {
 
+    let roles = localStorage.getItem(`roles`);
+    if(roles != undefined && roles != null){
+        roles.split(`,`);
+    }
+    else return ``;
+    
     if(roles.includes(`Moderator`) 
     || roles.includes(`Admin`) 
     || localStorage.getItem(`id`) == post.userId){
@@ -134,17 +143,46 @@ const updatePost = async () => {
 } 
 const formatComment = (comment) => {
     return `
-        <div class="comment" id="${comment.replyId}">
-            <div class="comment-content">${comment.content}</div>
-            <div class="comment-date">${(new Date(comment.createdAt)).toLocaleString()}</div>
+        <div class="comment" id="comment-${comment.replyId}">
+            <div class="comment-text-container">
+                <div class="comment-user-container">
+                    <div class="comment-user"><a href="profile.html?id=${comment.userId}">${comment.username}</a></div>
+                    <div class="comment-date">${(new Date(comment.createdAt)).toLocaleString()}</div>
+                </div>
+                <div class="comment-content">${comment.content}</div>
+            </div>
+            ${formatDeleteCommentButton(comment.replyId)}
+            
         </div>
     `;
+}
+const formatDeleteCommentButton = (id) => {
+    let roles = localStorage.getItem(`roles`).split(`,`);
+
+    if(roles.includes(`Moderator`) 
+    || roles.includes(`Admin`) 
+    || localStorage.getItem(`id`) == id){
+        return `<a class="delete-comment-button" id="comment-${id}" onclick="deleteComment(${id})">Delete</a>`;
+    }
+    return ``;
+} 
+const deleteComment = async (id) => {
+    let response = await fetch(`http://localhost:5084/api/PostReply/${id}`, {
+        method: `delete`,
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem(`token`)}`
+        },
+    })
+
+    if(response.ok){
+        document.querySelector(`#comment-${id}`).remove();
+    }
+    else console.log(response.status);
 }
 const loadCommentCeateContainer = () => {
     document.querySelector(`.post-container`).outerHTML += `
         <form class="comment-form">
-            <label for="content">Comment:</label>
-            <input type="text" name="content" id="content" autocomplete="off">
+            <textarea type="text" name="content" id="content" autocomplete="off"></textarea>
             <input type="button" name="comment-button" id="comment-button" value="Comment">
         </form>
     `;

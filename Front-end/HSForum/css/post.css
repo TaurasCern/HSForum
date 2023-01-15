@@ -1,0 +1,115 @@
+.post-container {
+    display: flex;
+    flex-flow: column;
+}
+.post-info {
+    display: flex;
+    flex-flow: row;
+}
+.post-title {
+    padding: 5px;
+    color: #F1FAEE;
+    background-color: #394756;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.post-content {
+    padding: 5px;
+    color: #F1FAEE;
+    background-color: #394756;
+    word-wrap: break-word;
+    height: 75px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.post-info {
+    display: flex;
+    flex-flow: row;
+    
+    justify-content: space-between;
+    padding: 5px;
+    color: #F1FAEE;
+    background-color: #394756;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.post-actions {
+    display: flex;
+    flex-flow: row;
+}
+.post-date {
+    float: right;
+    justify-self: flex-end;
+}
+.rating {
+    margin-right: 10px;
+}
+.vote-container {
+    display: flex;
+    flex-flow: row;
+}
+#positive-vote {
+    margin-right: 5px;
+}
+#edit-button, #delete-button, .delete-comment-button {
+    display: flex;
+    background-color: #3D4166;
+    width: 100px;
+    height: 30px;
+    margin-right: 10px;
+    font-size: 18px;
+    color: #F1FAEE;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.comment-form {
+    display: flex;
+    flex-flow: column;
+
+    margin-top: 25px;
+}
+#content {
+    background-color: #A6A9C9;
+    border-radius: 5px;
+    padding: 5px;
+    resize: none;
+    margin-bottom: 5px;
+}
+#comment-button {
+    display: flex;
+    background-color: #3D4166;
+    width: 100px;
+    height: 30px;
+
+    font-size: 20px;
+    color: #F1FAEE;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 30px;
+
+    border-radius: 5px;
+}
+.comment-user, .comment-content, .comment-date {
+    padding: 5px;
+}
+.comment {
+    padding: 5px;
+    color: #F1FAEE;
+    background-color: #394756;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.comment-text-container {
+    display: flex;
+    flex-flow: row;
+}
+.comment-content {
+    padding-left: 15px;
+    margin-left: 40px;
+    border-left: 1px solid #181E25;
+    word-wrap: break-word;
+}
