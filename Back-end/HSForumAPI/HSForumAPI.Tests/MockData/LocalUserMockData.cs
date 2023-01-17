@@ -19,6 +19,8 @@ namespace HSForumAPI.Tests.MockData
         public static List<LocalUser> GetData()
         {
             CreatePasswordHash("test", out byte[] passwordHash, out byte[] passwordSalt);
+            CreatePasswordHash("test", out byte[] passwordHash2, out byte[] passwordSalt2);
+            CreatePasswordHash("test", out byte[] passwordHash3, out byte[] passwordSalt3);
             return new List<LocalUser>()
             {
                 new LocalUser()
@@ -28,6 +30,24 @@ namespace HSForumAPI.Tests.MockData
                     Email = "test",
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
+                    CreatedAt = DateTime.Now
+                },
+                new LocalUser()
+                {
+                    UserId = 2,
+                    Username = "test2",
+                    Email = "test3",
+                    PasswordHash = passwordHash2,
+                    PasswordSalt = passwordSalt2,
+                    CreatedAt = DateTime.Now
+                },
+                new LocalUser()
+                {
+                    UserId = 3,
+                    Username = "test2",
+                    Email = "test3",
+                    PasswordHash = passwordHash3,
+                    PasswordSalt = passwordSalt3,
                     CreatedAt = DateTime.Now
                 }
             };
