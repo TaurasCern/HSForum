@@ -15,9 +15,21 @@ const register = () => {
     let registerForm = document.querySelector(`.register-form`);
     let data = getFormData(registerForm);
     
-    // Validation 
+    let err = document.querySelector(`.error-container`);
 
-    registerFetch(data.username, data.email, data.password);
+    if(data.username.length < 3){
+        err.style.padding = `5px`;
+        err.style.backgroundColor = `rgb(176, 78, 78)`;
+        err.style.border = `1px solid red`;
+        err.innerHTML = `Username has to be from 3 to 16 characters`;
+    }
+    else if (data.password.length < 7){
+        err.style.padding = `5px`;
+        err.style.backgroundColor = `rgb(176, 78, 78)`;
+        err.style.border = `1px solid red`;
+        err.innerHTML = `Password has to be from 7 to 20 characters`;
+    }
+    else registerFetch(data.username, data.email, data.password);
 }
 const getFormData = (form) => {
     let formData = new FormData(form);
@@ -46,4 +58,4 @@ const registerFetch = async (username, email, password) => {
         document.location.assign(`index.html`);
     }
     else console.log(response.status);
-}
+}       
