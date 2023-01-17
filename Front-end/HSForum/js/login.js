@@ -1,3 +1,5 @@
+let isErrorOpen = false;
+
 window.onload = () => {
     insertHeader();
     if(!(localStorage.getItem(`token`) === null)){
@@ -14,7 +16,7 @@ window.onload = () => {
 const login = () => {
     let loginForm = document.querySelector(`.login-form`);
     let data = getFormData(loginForm);
-    
+
     loginFetch(data.username, data.password);
 }
 const getFormData = (form) => {
@@ -46,6 +48,14 @@ const loginFetch = async (username, password) => {
         localStorage.setItem(`id`, json.userId);
 
         document.location.assign(`index.html`);
+    }
+    else if(response.status === 400){
+        let err = document.querySelector(`.error-container`);
+        err.style.padding = `5px`;
+        err.style.backgroundColor = `rgb(176, 78, 78)`;
+        err.style.border = `1px solid red`;
+        err.innerHTML = `User does not exist or wrong password entered`;
+        
     }
     else console.log(response.status);
 }

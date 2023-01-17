@@ -151,18 +151,18 @@ const formatComment = (comment) => {
                 </div>
                 <div class="comment-content">${comment.content}</div>
             </div>
-            ${formatDeleteCommentButton(comment.replyId)}
+            ${formatDeleteCommentButton(comment)}
             
         </div>
     `;
 }
-const formatDeleteCommentButton = (id) => {
+const formatDeleteCommentButton = (comment) => {
     let roles = localStorage.getItem(`roles`).split(`,`);
 
     if(roles.includes(`Moderator`) 
     || roles.includes(`Admin`) 
-    || localStorage.getItem(`id`) == id){
-        return `<a class="delete-comment-button" id="comment-${id}" onclick="deleteComment(${id})">Delete</a>`;
+    || localStorage.getItem(`id`) == comment.userId){
+        return `<a class="delete-comment-button" id="comment-${comment.replyId}" onclick="deleteComment(${comment.replyId})">Delete</a>`;
     }
     return ``;
 } 
